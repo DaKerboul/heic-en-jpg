@@ -92,9 +92,9 @@ export default function ConverterIsland() {
           />
 
           {!c.items.length && (
-            <div class="mt-4 grid gap-2 text-center sm:grid-cols-3">
+            <div class="mt-4 grid gap-3 text-center sm:grid-cols-3 sm:divide-x sm:divide-slate-200 sm:dark:divide-slate-700">
               {fr.steps.map((s) => (
-                <div key={s.t} class="rounded-2xl border border-dashed border-slate-200 bg-white px-3 py-4 dark:border-slate-700 dark:bg-slate-800">
+                <div key={s.t} class="px-2">
                   <p class="text-sm font-extrabold">{s.t}</p>
                   <p class="mt-1 text-xs text-slate-500 dark:text-slate-400">{s.d}</p>
                 </div>

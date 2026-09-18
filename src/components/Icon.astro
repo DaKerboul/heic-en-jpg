@@ -1,0 +1,28 @@
+---
+// Icônes réelles (Phosphor "regular"), jamais dessinées à la main.
+import arrowsLeftRight from '@phosphor-icons/core/assets/regular/arrows-left-right.svg?raw';
+import lockSimple from '@phosphor-icons/core/assets/regular/lock-simple.svg?raw';
+import lightning from '@phosphor-icons/core/assets/regular/lightning.svg?raw';
+import packageIcon from '@phosphor-icons/core/assets/regular/package.svg?raw';
+import filePdf from '@phosphor-icons/core/assets/regular/file-pdf.svg?raw';
+import deviceMobile from '@phosphor-icons/core/assets/regular/device-mobile.svg?raw';
+import scales from '@phosphor-icons/core/assets/regular/scales.svg?raw';
+
+const ICONS = {
+  'arrows-left-right': arrowsLeftRight,
+  'lock-simple': lockSimple,
+  lightning,
+  package: packageIcon,
+  'file-pdf': filePdf,
+  'device-mobile': deviceMobile,
+  scales,
+} as const;
+
+interface Props {
+  name: keyof typeof ICONS;
+  class?: string;
+}
+const { name, class: cls = 'h-5 w-5' } = Astro.props;
+const svg = ICONS[name].replace('<svg ', `<svg class="${cls}" aria-hidden="true" `);
+---
+<Fragment set:html={svg} />

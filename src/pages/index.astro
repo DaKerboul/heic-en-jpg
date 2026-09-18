@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PrivacyBadge from '../components/PrivacyBadge.astro';
 import Faq from '../components/Faq.astro';
 import FeedbackForm from '../components/FeedbackForm.astro';
+import Icon from '../components/Icon.astro';
 import ConverterIsland from '../components/ConverterIsland';
 
 const faqs = [
@@ -20,22 +21,21 @@ const faqs = [
 >
   <!-- HERO -->
   <section class="anim-fade-up pt-8 text-center sm:pt-12">
-    <p class="mx-auto inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-bold text-emerald-800">
-      <span class="relative flex h-2 w-2" aria-hidden="true"><span class="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60"></span><span class="h-2 w-2 rounded-full bg-emerald-600"></span></span>
+    <p class="mx-auto inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-bold text-emerald-800 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">
       Gratuit · Sans compte · Sans envoi serveur
     </p>
     <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
-      HEIC &amp; WebP <span class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">→ JPG / PDF</span>, sans rien envoyer
+      HEIC &amp; WebP <span class="text-emerald-600 dark:text-emerald-400">→ JPG / PDF</span>, sans rien envoyer
     </h1>
     <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
       Photo iPhone refusée par ANTS, la CAF ou un recruteur ? Capture WebP illisible ?
       Convertissez en <strong>JPG universel</strong> ou <strong>PDF A4 multipage</strong>, avec réduction automatique <strong>sous 2 Mo</strong>.
     </p>
-    <div class="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-slate-500">
-      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">⚡ ~2 s / photo</span>
-      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">📦 10 fichiers + ZIP</span>
-      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">📄 PDF multipage</span>
-      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">🔒 0 envoi réseau</span>
+    <div class="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400">
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"><Icon name="lightning" class="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> ~2 s / photo</span>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"><Icon name="package" class="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> 10 fichiers + ZIP</span>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"><Icon name="file-pdf" class="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> PDF multipage</span>
+      <span class="inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700"><Icon name="lock-simple" class="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" /> 0 envoi réseau</span>
     </div>
   </section>
 
@@ -51,18 +51,23 @@ const faqs = [
   <!-- ÉTAPES -->
   <section class="mt-14">
     <h2 class="text-center text-2xl font-extrabold tracking-tight">Comment ça marche</h2>
-    <div class="stagger mt-5 grid gap-3 sm:grid-cols-4">
+    <div class="stagger mt-6 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-0">
       {[
         { n: '1', t: 'Déposez', d: 'Glissez jusqu’à 10 images : HEIC iPhone, WebP, PNG, JPG, AVIF…' },
         { n: '2', t: 'Réglez', d: 'JPG universel, PNG sans perte ou PDF multipage. Preset < 2 Mo pour l’admin.' },
         { n: '3', t: 'Convertissez', d: 'Tout se passe dans votre navigateur (WASM + Canvas), fichier par fichier.' },
         { n: '4', t: 'Téléchargez', d: 'Un par un ou tout en ZIP. Bouton « effacer » pour vider la mémoire.' },
-      ].map((s) => (
-        <div class="card-hover rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-          <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 text-sm font-black text-white">{s.n}</span>
-          <p class="mt-2 font-extrabold">{s.t}</p>
-          <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{s.d}</p>
-        </div>
+      ].map((s, i) => (
+        <>
+          <div class="flex gap-3 sm:flex-1 sm:flex-col sm:items-center sm:text-center">
+            <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-900 text-sm font-black text-white dark:bg-emerald-600">{s.n}</span>
+            <div class="sm:mt-3 sm:max-w-[11rem]">
+              <p class="font-extrabold">{s.t}</p>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{s.d}</p>
+            </div>
+          </div>
+          {i < 3 && <div class="ml-4 h-6 w-px bg-slate-200 dark:bg-slate-700 sm:ml-0 sm:mt-[18px] sm:h-px sm:w-full sm:flex-1" aria-hidden="true" />}
+        </>
       ))}
     </div>
   </section>
@@ -70,24 +75,24 @@ const faqs = [
   <!-- CAS D'USAGE -->
   <section class="mt-14">
     <h2 class="text-center text-2xl font-extrabold tracking-tight">Fait pour vos blocages du quotidien</h2>
-    <div class="mt-5 grid gap-3 sm:grid-cols-3">
-      <a href="/convertir-heic-en-jpg/" class="card-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <p class="text-2xl" aria-hidden="true">📱</p>
-        <p class="mt-2 font-extrabold">Photo iPhone → JPG</p>
-        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Permis, carte d’identité, candidature : fini le « format non pris en charge ».</p>
-        <p class="mt-2 text-sm font-bold text-emerald-700">Convertir un HEIC →</p>
+    <div class="mt-5 grid gap-3 md:grid-cols-[1.3fr_1fr] md:grid-rows-2">
+      <a href="/convertir-heic-en-jpg/" class="card-hover rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 md:row-span-2 md:flex md:flex-col md:justify-center">
+        <Icon name="device-mobile" class="h-8 w-8 text-emerald-600 dark:text-emerald-400" />
+        <p class="mt-3 text-lg font-extrabold">Photo iPhone → JPG</p>
+        <p class="mt-1.5 text-sm text-slate-600 dark:text-slate-300">Permis, carte d’identité, candidature : fini le « format non pris en charge ». Le cas le plus fréquent, réglé en un dépôt.</p>
+        <p class="mt-3 text-sm font-bold text-emerald-700 dark:text-emerald-400">Convertir un HEIC →</p>
       </a>
       <a href="/convertir-webp-en-pdf/" class="card-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <p class="text-2xl" aria-hidden="true">📄</p>
+        <Icon name="file-pdf" class="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
         <p class="mt-2 font-extrabold">Captures WebP → PDF A4</p>
-        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Assemblez justificatifs et captures en un PDF multipage propre et ordonné.</p>
-        <p class="mt-2 text-sm font-bold text-emerald-700">Créer un PDF →</p>
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Assemblez justificatifs et captures en un PDF multipage ordonné.</p>
+        <p class="mt-2 text-sm font-bold text-emerald-700 dark:text-emerald-400">Créer un PDF →</p>
       </a>
       <a href="/reduire-photo-moins-2mo/" class="card-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-        <p class="text-2xl" aria-hidden="true">⚖️</p>
+        <Icon name="scales" class="h-6 w-6 text-emerald-600 dark:text-emerald-400" />
         <p class="mt-2 font-extrabold">Passer sous 2 Mo</p>
         <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Preset ANTS / CAF / Ameli : qualité et dimensions ajustées automatiquement.</p>
-        <p class="mt-2 text-sm font-bold text-emerald-700">Réduire une photo →</p>
+        <p class="mt-2 text-sm font-bold text-emerald-700 dark:text-emerald-400">Réduire une photo →</p>
       </a>
     </div>
   </section>

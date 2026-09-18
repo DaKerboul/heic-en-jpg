@@ -28,13 +28,13 @@ const faqs = [
     <div class="mt-4"><ConverterIsland client:visible /></div>
   </section>
 
-  <section class="mt-10 grid gap-3 sm:grid-cols-3">
+  <section class="mt-10 grid gap-6 border-y border-slate-200 py-6 dark:border-slate-700 sm:grid-cols-3 sm:divide-x sm:divide-slate-200 sm:dark:divide-slate-700">
     {[
       { t: '< 2 Mo', d: 'ANTS, CAF, Ameli, impôts : le standard des pièces justificatives.' },
       { t: '< 500 Ko', d: 'Emails de candidature et formulaires à pièces jointes multiples.' },
       { t: 'Qualité max', d: 'Impression et archivage : dimensions d’origine, qualité 92 %.' },
     ].map((c) => (
-      <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800"><p class="font-extrabold">{c.t}</p><p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{c.d}</p></div>
+      <div class="sm:px-6 first:sm:pl-0 last:sm:pr-0"><p class="font-extrabold">{c.t}</p><p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{c.d}</p></div>
     ))}
   </section>
 
