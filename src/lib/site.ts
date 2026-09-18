@@ -1,5 +1,5 @@
 // URL publique du site — à ajuster au déploiement (utilisée pour canonical, OG, sitemap).
-export const SITE_URL = 'https://convertisseur-local.fr';
+export const SITE_URL = 'https://heic-en-jpg.kerboul.me';
 export const SITE_NAME = 'Convertisseur Local';
 export const SITE_TAGLINE = 'HEIC & WebP → JPG / PDF, 100% dans votre navigateur';
 
