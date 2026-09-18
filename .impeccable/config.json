@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "src/layouts/BaseLayout.astro"
+        ],
+        "createdAt": "2026-09-18T19:05:09.848Z",
+        "reason": "compact header logo lockup (brand name 15px / tagline 11px) is a deliberate subordinate pairing, hierarchy already carried by weight+color per section 9.B; page-wide type scale (xs/sm/base/lg/2xl/4xl-5xl) is not flat"
+      },
+      {
+        "rule": "gray-on-color",
+        "value": "*",
+        "files": [
+          "src/components/converter/FileList.tsx"
+        ],
+        "createdAt": "2026-09-18T19:05:09.917Z",
+        "reason": "remove-file icon button: text-slate-400 sits on transparent bg at rest, hover pairs bg-red-50 with hover:text-red-600 simultaneously so text is never gray on the colored bg"
+      }
+    ]
+  }
+}

@@ -81,7 +81,7 @@ export function FileList({ items, view, format, busy, onMove, onReorder, onRemov
             </p>
             {it.status === 'conversion' && (
               <div class="progress-track mt-1.5">
-                <div class="progress-fill busy" style={{ width: `${it.pct}%` }} />
+                <div class="progress-fill busy" style={{ transform: `scaleX(${it.pct / 100})` }} />
               </div>
             )}
           </div>

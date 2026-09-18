@@ -70,7 +70,7 @@ export default function ConverterIsland() {
                 <p class="font-bold tabular-nums text-emerald-700 dark:text-emerald-400">{c.globalPct}%</p>
               </div>
               <div class="progress-track mt-2 dark:bg-slate-700">
-                <div class={`progress-fill ${c.busy ? 'busy' : ''}`} style={{ width: `${c.globalPct}%` }} />
+                <div class={`progress-fill ${c.busy ? 'busy' : ''}`} style={{ transform: `scaleX(${c.globalPct / 100})` }} />
               </div>
               {c.decoderLoading && <p class="mt-1.5 text-xs text-slate-500 dark:text-slate-400">Chargement unique du décodeur HEIC (WASM), mis en cache ensuite…</p>}
             </div>
