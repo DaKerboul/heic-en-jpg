@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivacyBadge from '../../components/PrivacyBadge.astro';
+import Faq from '../../components/Faq.astro';
+import FeedbackForm from '../../components/FeedbackForm.astro';
+import ConverterIsland from '../../components/ConverterIsland';
+
+const faqs = [
+  { q: 'Comment transformer des captures WebP en un seul PDF ?', a: 'Déposez vos .webp, choisissez le format PDF, ordonnez avec les flèches ↑ ↓ (l’ordre de la liste = l’ordre des pages), puis « Générer le PDF ». Chaque image occupe une page A4 centrée avec marges.' },
+  { q: 'Quelle taille de page choisir ?', a: 'A4 pour la France et l’administration, Lettre US pour l’Amérique du Nord, Auto pour un PDF à la taille exacte de vos images (présentations, planches).' },
+  { q: 'Le PDF sera-t-il sous 2 Mo ?', a: 'Avec le preset ANTS, l’outil régénère le PDF en qualité réduite (0,85 → 0,7 → 0,55) jusqu’au seuil. Pour les gros dossiers, scindez en plusieurs PDF ou baissez la qualité manuellement.' },
+  { q: 'Puis-je mélanger WebP, PNG et JPG dans le même PDF ?', a: 'Oui. Tous les formats affichables par le navigateur sont normalisés en JPEG avant insertion — y compris les HEIC décodés localement.' },
+];
+---
+<BaseLayout
+  title="Convertir WebP en PDF — captures en PDF A4 multipage"
+  description="Assemblez vos captures WebP en un PDF A4 propre et multipage, 100% dans le navigateur. Ordre des pages, taille A4/Lettre/Auto, réduction sous 2 Mo."
+>
+  <nav class="pt-6 text-xs text-slate-400" aria-label="Fil d’Ariane"><a href="/" class="hover:underline">Accueil</a> / Convertir WebP en PDF</nav>
+  <h1 class="mt-2 max-w-3xl text-3xl font-black tracking-tight sm:text-4xl">Captures WebP <span class="text-emerald-600">→ PDF A4 multipage</span></h1>
+  <p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+    Les navigateurs téléchargent en <strong>.webp</strong>, illisible pour beaucoup d’administrations et d’imprimeurs.
+    Assemblez vos captures en <strong>un seul PDF ordonné</strong>, sans logiciel ni envoi serveur.
+  </p>
+
+  <section id="convertisseur" class="mt-6 scroll-mt-24">
+    <PrivacyBadge />
+    <div class="mt-4"><ConverterIsland client:visible /></div>
+  </section>
+
+  <section class="mt-10 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <h2 class="text-xl font-extrabold">Bien régler son PDF</h2>
+    <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-slate-700 dark:text-slate-300">
+      <li><strong>Ordre des pages</strong> : utilisez ↑ ↓ dans la liste avant de générer.</li>
+      <li><strong>A4 + portrait</strong> pour les dossiers CAF / Ameli / impôts ; <strong>paysage</strong> pour les captures d’écran larges.</li>
+      <li><strong>Qualité standard (85 %)</strong> : le meilleur compromis lisibilité / poids pour du texte capturé.</li>
+      <li><strong>Nom de fichier</strong> explicite (ex : <em>justificatifs-caf</em>) : certains guichets le contrôlent.</li>
+    </ul>
+  </section>
+
+  <Faq title="WebP → PDF : questions fréquentes" items={faqs} />
+  <FeedbackForm />
+</BaseLayout>

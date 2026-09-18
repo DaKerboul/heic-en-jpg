@@ -1,0 +1,53 @@
+---
+interface Props {
+  id?: string;
+}
+const { id = 'avis' } = Astro.props;
+---
+<section id={id} class="mt-14 scroll-mt-24 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:p-8">
+  <h2 class="text-2xl font-extrabold tracking-tight">Un fichier qui résiste ? Dites-le-nous</h2>
+  <p class="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+    Certains HEIC (mode portrait avec carte de profondeur, rafales, appareils non-Apple) ne se décodent pas encore dans le navigateur.
+    Décrivez le cas — <strong>sans jamais joindre la photo</strong> (modèle d'iPhone, extension, taille) — on améliore le décodeur.
+  </p>
+  <form id="feedback-form" class="mt-4 grid gap-3" novalidate>
+    <label class="grid gap-1 text-sm font-medium">
+      Votre message
+      <textarea name="message" rows="3" required maxlength="2000" placeholder="Ex : HEIC portrait iPhone 14, 3,2 Mo — erreur « Encodage impossible »" class="rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm font-normal shadow-sm placeholder:text-slate-400 focus:border-emerald-500 dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500"></textarea>
+    </label>
+    <div class="flex flex-wrap items-center gap-3">
+      <button type="submit" class="rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-bold text-white shadow transition hover:bg-emerald-500 disabled:opacity-50">Envoyer (anonyme)</button>
+      <p id="feedback-status" class="text-sm text-slate-600 dark:text-slate-300" role="status" aria-live="polite"></p>
+    </div>
+  </form>
+  <script>
+    const form = document.getElementById('feedback-form') as HTMLFormElement | null;
+    const status = document.getElementById('feedback-status');
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      const message = String(data.get('message') ?? '').trim();
+      if (!message) {
+        if (status) status.textContent = 'Écrivez quelques mots avant d’envoyer.';
+        return;
+      }
+      const btn = form.querySelector('button[type="submit"]');
+      btn?.setAttribute('disabled', '');
+      if (status) status.textContent = 'Envoi…';
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ message, page: location.pathname }),
+        });
+        if (!res.ok) throw new Error('http ' + res.status);
+        if (status) status.textContent = 'Merci ! Message bien reçu.';
+        form.reset();
+      } catch {
+        if (status) status.textContent = 'Envoi impossible (hors-ligne ?). Réessayez connecté.';
+      } finally {
+        btn?.removeAttribute('disabled');
+      }
+    });
+  </script>
+</section>

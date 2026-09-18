@@ -1,0 +1,13 @@
+---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
+---
+<div class={`flex items-start gap-3 rounded-2xl border border-emerald-200/80 bg-gradient-to-r from-emerald-50 to-teal-50 shadow-sm dark:border-emerald-900 dark:from-emerald-950 dark:to-teal-950 ${compact ? 'px-3 py-2 text-[13px]' : 'px-4 py-3 text-sm'}`} role="note" aria-label="Garantie de confidentialité">
+  <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-base text-white shadow" aria-hidden="true">🔒</span>
+  <p class="leading-snug text-emerald-950 dark:text-emerald-100">
+    <strong>Vos photos ne quittent jamais votre appareil.</strong>
+    <span class="text-emerald-800 dark:text-emerald-300"> Conversion 100&nbsp;% locale (WebAssembly + Canvas) — vérifiable en coupant le Wi-Fi après chargement, ou dans l'onglet réseau : 0 envoi.</span>
+  </p>
+</div>

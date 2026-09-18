@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PrivacyBadge from '../components/PrivacyBadge.astro';
+import Faq from '../components/Faq.astro';
+import FeedbackForm from '../components/FeedbackForm.astro';
+import ConverterIsland from '../components/ConverterIsland';
+
+const faqs = [
+  { q: 'Mes photos sont-elles envoyées sur un serveur ?', a: 'Non, jamais. Tout tourne en WebAssembly (libheif) et Canvas dans votre onglet. Coupez le Wi-Fi après le chargement de la page : la conversion continue de fonctionner. C’est vérifiable dans l’onglet réseau de votre navigateur : 0 requête sortante pendant la conversion.' },
+  { q: 'Pourquoi la première conversion HEIC est-elle plus lente ?', a: 'Le décodeur libheif (~3 Mo) se télécharge une seule fois, puis est mis en cache par le navigateur. Les conversions suivantes sont quasi instantanées. Traitez vos fichiers un par un en interne : l’outil convertit séquentiellement pour ne pas saturer la mémoire (une photo 48 MP = ~190 Mo décompressés).' },
+  { q: 'JPG ou PNG : que choisir pour une démarche administrative ?', a: 'JPG dans 99 % des cas : universel, léger, accepté par ANTS, CAF, Ameli, les impôts et les recruteurs. PNG uniquement si vous avez besoin d’une qualité sans perte (captures avec texte, logos). Le preset « ANTS / Ameli / CAF » ajuste automatiquement qualité et dimensions pour passer sous 2 Mo.' },
+  { q: 'Comment obtenir un PDF multipage accepté par l’administration ?', a: 'Choisissez le format PDF, ordonnez vos images avec les flèches (l’ordre de la liste = l’ordre des pages), sélectionnez A4 puis générez. Chaque image occupe une page, centrée avec marges. Si le PDF dépasse 2 Mo, régénérez en qualité « Légère » ou retirez des images.' },
+  { q: 'Quels fichiers HEIC peuvent échouer ?', a: 'Certains portraits avec carte de profondeur, rafales et HEIC d’appareils non-Apple utilisent des variantes que le décodeur navigateur ne gère pas. Dans ce cas, réexportez la photo en JPG depuis l’app Photos de l’iPhone, ou signalez le cas via le formulaire ci-dessous (sans joindre la photo).' },
+  { q: 'Les données GPS de mes photos sont-elles supprimées ?', a: 'Oui. Le ré-encodage via Canvas ne recopie pas les métadonnées EXIF/GPS du fichier d’origine : le JPG produit ne contient ni géolocalisation ni données d’appareil. Idéal pour les pièces d’identité.' },
+];
+---
+<BaseLayout
+  title="Convertir HEIC & WebP en JPG / PDF — gratuit, 100% local"
+  description="Bloqué par un portail qui refuse .heic ou .webp ? Convertissez en JPG universel ou PDF A4 multipage, réduisez sous 2 Mo pour ANTS, CAF, Ameli. Gratuit, sans compte, vos fichiers ne quittent jamais votre appareil."
+>
+  <!-- HERO -->
+  <section class="anim-fade-up pt-8 text-center sm:pt-12">
+    <p class="mx-auto inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1.5 text-xs font-bold text-emerald-800">
+      <span class="relative flex h-2 w-2" aria-hidden="true"><span class="absolute h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60"></span><span class="h-2 w-2 rounded-full bg-emerald-600"></span></span>
+      Gratuit · Sans compte · Sans envoi serveur
+    </p>
+    <h1 class="mx-auto mt-4 max-w-3xl text-4xl font-black leading-[1.05] tracking-tight sm:text-5xl">
+      HEIC &amp; WebP <span class="bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">→ JPG / PDF</span>, sans rien envoyer
+    </h1>
+    <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
+      Photo iPhone refusée par ANTS, la CAF ou un recruteur ? Capture WebP illisible ?
+      Convertissez en <strong>JPG universel</strong> ou <strong>PDF A4 multipage</strong>, avec réduction automatique <strong>sous 2 Mo</strong>.
+    </p>
+    <div class="mt-5 flex flex-wrap items-center justify-center gap-2 text-xs font-semibold text-slate-500">
+      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">⚡ ~2 s / photo</span>
+      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">📦 10 fichiers + ZIP</span>
+      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">📄 PDF multipage</span>
+      <span class="rounded-full bg-white px-3 py-1.5 shadow-sm ring-1 ring-slate-200 dark:bg-slate-800 dark:ring-slate-700 dark:text-slate-300">🔒 0 envoi réseau</span>
+    </div>
+  </section>
+
+  <!-- CONVERTISSEUR -->
+  <section id="convertisseur" class="mt-8 scroll-mt-24">
+    <PrivacyBadge />
+    <div class="mt-4">
+      <ConverterIsland client:visible />
+    </div>
+    <p class="mt-3 text-center text-xs text-slate-400">Astuce : après le chargement initial, coupez le Wi-Fi — l’outil continue de fonctionner hors-ligne.</p>
+  </section>
+
+  <!-- ÉTAPES -->
+  <section class="mt-14">
+    <h2 class="text-center text-2xl font-extrabold tracking-tight">Comment ça marche</h2>
+    <div class="stagger mt-5 grid gap-3 sm:grid-cols-4">
+      {[
+        { n: '1', t: 'Déposez', d: 'Glissez jusqu’à 10 images : HEIC iPhone, WebP, PNG, JPG, AVIF…' },
+        { n: '2', t: 'Réglez', d: 'JPG universel, PNG sans perte ou PDF multipage. Preset < 2 Mo pour l’admin.' },
+        { n: '3', t: 'Convertissez', d: 'Tout se passe dans votre navigateur (WASM + Canvas), fichier par fichier.' },
+        { n: '4', t: 'Téléchargez', d: 'Un par un ou tout en ZIP. Bouton « effacer » pour vider la mémoire.' },
+      ].map((s) => (
+        <div class="card-hover rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-900 text-sm font-black text-white">{s.n}</span>
+          <p class="mt-2 font-extrabold">{s.t}</p>
+          <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{s.d}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- CAS D'USAGE -->
+  <section class="mt-14">
+    <h2 class="text-center text-2xl font-extrabold tracking-tight">Fait pour vos blocages du quotidien</h2>
+    <div class="mt-5 grid gap-3 sm:grid-cols-3">
+      <a href="/convertir-heic-en-jpg/" class="card-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <p class="text-2xl" aria-hidden="true">📱</p>
+        <p class="mt-2 font-extrabold">Photo iPhone → JPG</p>
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Permis, carte d’identité, candidature : fini le « format non pris en charge ».</p>
+        <p class="mt-2 text-sm font-bold text-emerald-700">Convertir un HEIC →</p>
+      </a>
+      <a href="/convertir-webp-en-pdf/" class="card-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <p class="text-2xl" aria-hidden="true">📄</p>
+        <p class="mt-2 font-extrabold">Captures WebP → PDF A4</p>
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Assemblez justificatifs et captures en un PDF multipage propre et ordonné.</p>
+        <p class="mt-2 text-sm font-bold text-emerald-700">Créer un PDF →</p>
+      </a>
+      <a href="/reduire-photo-moins-2mo/" class="card-hover rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <p class="text-2xl" aria-hidden="true">⚖️</p>
+        <p class="mt-2 font-extrabold">Passer sous 2 Mo</p>
+        <p class="mt-1 text-sm text-slate-600 dark:text-slate-300">Preset ANTS / CAF / Ameli : qualité et dimensions ajustées automatiquement.</p>
+        <p class="mt-2 text-sm font-bold text-emerald-700">Réduire une photo →</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- COMPARATIF -->
+  <section class="mt-14 overflow-hidden rounded-3xl border border-slate-200 bg-slate-950 text-slate-200 shadow-xl">
+    <div class="p-6 sm:p-8">
+      <h2 class="text-2xl font-extrabold tracking-tight text-white">Pourquoi « local » change tout</h2>
+      <p class="mt-1 text-sm text-slate-400">La plupart des convertisseurs en ligne envoient vos pièces d’identité sur leurs serveurs. Ici, il n’y a pas de serveur de conversion.</p>
+      <div class="mt-5 overflow-x-auto">
+        <table class="w-full min-w-[560px] text-left text-sm">
+          <thead>
+            <tr class="text-xs uppercase tracking-wider text-slate-500">
+              <th class="pb-2 pr-4 font-bold">Critère</th>
+              <th class="pb-2 pr-4 font-bold text-emerald-300">Convertisseur Local</th>
+              <th class="pb-2 pr-4 font-bold">Convertisseurs en ligne classiques</th>
+            </tr>
+          </thead>
+          <tbody class="[&_td]:border-t [&_td]:border-white/10 [&_td]:py-2.5 [&_td]:pr-4">
+            <tr><td>Fichiers envoyés</td><td class="font-bold text-emerald-300">Jamais</td><td>Oui, sur leurs serveurs</td></tr>
+            <tr><td>Compte requis</td><td class="font-bold text-emerald-300">Non</td><td>Souvent oui</td></tr>
+            <tr><td>Fonctionne hors-ligne</td><td class="font-bold text-emerald-300">Oui (après chargement)</td><td>Non</td></tr>
+            <tr><td>Limite quotidienne</td><td class="font-bold text-emerald-300">Non (10 / lot, mémoire locale)</td><td>Payant au-delà d’un quota</td></tr>
+            <tr><td>Cible &lt; 2 Mo auto</td><td class="font-bold text-emerald-300">Oui (presets ANTS/CAF)</td><td>Rarement</td></tr>
+            <tr><td>Données EXIF/GPS</td><td class="font-bold text-emerald-300">Supprimées</td><td>Conservées ou revendues ?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- LIMITES HONNÊTES -->
+  <section class="mt-14 rounded-3xl border border-amber-200 bg-amber-50 p-6 dark:border-amber-900 dark:bg-amber-950/40 sm:p-8">
+    <h2 class="text-xl font-extrabold">Limites connues, en toute transparence</h2>
+    <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-slate-700 dark:text-slate-300">
+      <li><strong>HEIC exotiques</strong> (portrait + profondeur, rafales, non-Apple) : le décodeur navigateur peut échouer — message d’erreur précis par fichier, le reste du lot continue.</li>
+      <li><strong>Gros fichiers</strong> : 25 Mo max par fichier, conversion séquentielle pour protéger la mémoire mobile.</li>
+      <li><strong>PNG</strong> : sans perte donc souvent plus lourd que l’original — normal, préférez JPG pour l’admin.</li>
+    </ul>
+  </section>
+
+  <Faq title="Questions fréquentes" items={faqs} />
+  <FeedbackForm />
+</BaseLayout>

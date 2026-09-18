@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivacyBadge from '../../components/PrivacyBadge.astro';
+---
+<BaseLayout
+  title="Confidentialité — rien ne quitte votre appareil"
+  description="Notre convertisseur tourne à 100% dans votre navigateur : aucune image envoyée, aucun stockage serveur, aucune inscription. Détails techniques et preuves."
+>
+  <nav class="pt-6 text-xs text-slate-400" aria-label="Fil d’Ariane"><a href="/" class="hover:underline">Accueil</a> / Confidentialité</nav>
+  <h1 class="mt-2 text-3xl font-black tracking-tight sm:text-4xl">Confidentialité <span class="text-emerald-600">radicale</span></h1>
+  <p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">Pièces d’identité, justificatifs, photos de famille : ces fichiers ne devraient jamais transiter par un serveur tiers pour un simple changement de format. Ici, il n’y a pas de serveur de conversion.</p>
+
+  <div class="mt-6"><PrivacyBadge /></div>
+
+  <section class="mt-8 grid gap-3 sm:grid-cols-2">
+    {[
+      { t: '0 endpoint d’upload', d: 'Le code ne contient aucun appel réseau envoyant vos images. Le pipeline est File → WebAssembly/Canvas → Blob → téléchargement, en mémoire d’onglet.' },
+      { t: 'Vérifiable en 10 secondes', d: 'Ouvrez les outils développeur → onglet Réseau, convertissez : aucune requête sortante. Ou coupez le Wi-Fi après chargement : ça marche toujours.' },
+      { t: 'EXIF/GPS supprimés', d: 'Le ré-encodage Canvas ne recopie pas les métadonnées : le fichier produit ne contient ni géolocalisation ni modèle d’appareil.' },
+      { t: 'Mémoire nettoyée', d: 'Bouton « Tout effacer » : révoque les URL blob et vide la file. Fermer l’onglet fait disparaître toute trace locale.' },
+    ].map((c) => (
+      <div class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800"><p class="font-extrabold">{c.t}</p><p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{c.d}</p></div>
+    ))}
+  </section>
+
+  <section class="mt-8 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <h2 class="text-xl font-extrabold">Que reçoit le mini-backend ?</h2>
+    <ul class="mt-3 list-disc space-y-1.5 pl-5 text-sm text-slate-700 dark:text-slate-300">
+      <li><strong>Rien d’image.</strong> Le seul appel réseau du site est le formulaire de signalement (<em>/api/feedback</em>), texte anonyme de 2000 caractères max — ne joignez jamais de photo.</li>
+      <li><strong>Pas de cookie traceur</strong>, pas de compte, pas de journal des fichiers traités (noms, tailles et contenus restent dans l’onglet).</li>
+      <li><strong>Hébergement statique</strong> : seules les mesures agrégées et anonymes de l’hébergeur (pages vues) peuvent exister, sans lien avec vos fichiers.</li>
+    </ul>
+    <p class="mt-4 text-sm"><a href="/" class="font-bold text-emerald-700 hover:underline">← Retour au convertisseur</a></p>
+  </section>
+</BaseLayout>

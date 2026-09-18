@@ -1,0 +1,14 @@
+{
+  "name": "Convertisseur Local — HEIC & WebP vers JPG/PDF",
+  "short_name": "Convertisseur",
+  "description": "Convertissez HEIC, WebP, PNG en JPG ou PDF multipage, 100% dans le navigateur.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#059669",
+  "lang": "fr",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,29 @@
+---
+interface FaqItem { q: string; a: string; }
+interface Props {
+  id?: string;
+  title?: string;
+  items: FaqItem[];
+}
+const { id = 'faq', title = 'Questions fréquentes', items } = Astro.props;
+---
+<section id={id} class="mt-14 scroll-mt-24">
+  <h2 class="text-2xl font-extrabold tracking-tight">{title}</h2>
+  <div class="mt-4 grid gap-3">
+    {items.map((f) => (
+      <details class="faq group rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm open:shadow-md dark:border-slate-700 dark:bg-slate-800">
+        <summary class="font-semibold text-slate-900 dark:text-slate-100">{f.q}</summary>
+        <p class="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{f.a}</p>
+      </details>
+    ))}
+  </div>
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": items.map((f) => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a },
+    })),
+  })} />
+</section>

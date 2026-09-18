@@ -1,0 +1,43 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PrivacyBadge from '../../components/PrivacyBadge.astro';
+import Faq from '../../components/Faq.astro';
+import FeedbackForm from '../../components/FeedbackForm.astro';
+import ConverterIsland from '../../components/ConverterIsland';
+
+const faqs = [
+  { q: 'Comment passer sous 2 Mo sans perdre toute qualité ?', a: 'L’outil combine deux leviers : baisse de qualité JPEG (90 → 55 %) puis réduction de dimensions (1920 → 1280 → 960 px). Il s’arrête dès que le seuil est atteint, en préservant le maximum de qualité. Le curseur « Qualité max » et « Dimension max » permettent d’affiner.' },
+  { q: 'Quels seuils pour quels portails ?', a: 'ANTS, CAF, Ameli, impôts : généralement 2 Mo par fichier. Candidatures par email : visez 500 Ko avec le preset Email. Au-delà, le formulaire rejette même un JPG valide.' },
+  { q: 'Pourquoi mon PNG reste lourd ?', a: 'Le PNG est sans perte : il ne peut pas vraiment « compresser » une photo. Pour l’administratif, convertissez en JPG — 5 à 10× plus léger à qualité visuelle équivalente.' },
+  { q: 'La réduction supprime-t-elle les données GPS ?', a: 'Oui : le ré-encodage Canvas ne recopie pas les métadonnées EXIF/GPS. Vos pièces déposées ne révèlent ni lieu ni appareil photo.' },
+];
+---
+<BaseLayout
+  title="Réduire une photo sous 2 Mo — preset CAF, Ameli, ANTS"
+  description="Photo refusée car trop lourde ? Réduisez JPG, PNG, HEIC ou WebP sous 2 Mo (ou 500 Ko) automatiquement, 100% dans le navigateur. Presets ANTS, CAF, Ameli."
+>
+  <nav class="pt-6 text-xs text-slate-400" aria-label="Fil d’Ariane"><a href="/" class="hover:underline">Accueil</a> / Réduire sous 2 Mo</nav>
+  <h1 class="mt-2 max-w-3xl text-3xl font-black tracking-tight sm:text-4xl">Passer sous <span class="text-emerald-600">2 Mo</span>, automatiquement</h1>
+  <p class="mt-3 max-w-2xl text-slate-600 dark:text-slate-300">
+    Second blocage classique après l’extension : le <strong>poids du fichier</strong>.
+    Sélectionnez le preset <strong>ANTS / Ameli / CAF</strong> — qualité et dimensions sont ajustées jusqu’au seuil, avec le gain affiché par fichier.
+  </p>
+
+  <section id="convertisseur" class="mt-6 scroll-mt-24">
+    <PrivacyBadge />
+    <div class="mt-4"><ConverterIsland client:visible /></div>
+  </section>
+
+  <section class="mt-10 grid gap-3 sm:grid-cols-3">
+    {[
+      { t: '< 2 Mo', d: 'ANTS, CAF, Ameli, impôts : le standard des pièces justificatives.' },
+      { t: '< 500 Ko', d: 'Emails de candidature et formulaires à pièces jointes multiples.' },
+      { t: 'Qualité max', d: 'Impression et archivage : dimensions d’origine, qualité 92 %.' },
+    ].map((c) => (
+      <div class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800"><p class="font-extrabold">{c.t}</p><p class="mt-1 text-sm text-slate-600 dark:text-slate-300">{c.d}</p></div>
+    ))}
+  </section>
+
+  <Faq title="Compression : questions fréquentes" items={faqs} />
+  <FeedbackForm />
+</BaseLayout>
